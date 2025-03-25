@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Home.css";
 import MovieCard from "../components/MovieCard";
 import { searchMovies, getPopularMovies } from "../services/api";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const movies = getPopularMovies()
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+     try {
+       const popularMovies = await getPopularMovies();
+       setMovies(popularMovies);
+     } catch (error) {
+       console.error("Failed to fetch popular movies", error);
+     }  
+     finally {
+       setLoading(false);
+     }
+    }
+    loadPopularMovies();
+  }, []);
+    
+  
+
 
   const handleSearch = (e) => {
     e.preventDefault();
