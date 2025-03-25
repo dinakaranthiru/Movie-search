@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import '../css/Home.css'
+import "../css/Home.css";
 import MovieCard from "../components/MovieCard";
+import { searchMovies, getPopularMovies } from "../services/api";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const movies = [
-    { id: 1, title: "John Wick", release_date: "2002" },
-    { id: 2, title: "Terminator", release_date: "1999" },
-    { id: 3, title: "The Matrix", release_date: "1998" },
-  ];
+  const movies = getPopularMovies()
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -31,12 +28,9 @@ function Home() {
         </button>
       </form>
       <div className="movies-grid">
-        {movies.map(
-          (movie) =>
-             (
-              <MovieCard movie={movie} key={movie.id} />
-            )
-        )}
+        {movies.map((movie) => (
+          <MovieCard movie={movie} key={movie.id} />
+        ))}
       </div>
     </div>
   );
